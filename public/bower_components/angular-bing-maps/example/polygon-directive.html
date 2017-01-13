@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.12/angular.min.js"></script>
+        <script src="../dist/angular-bing-maps.js"></script>
+
+        <script type="text/javascript">
+            var app = angular.module('angularBingMapExample', ['angularBingMaps']);
+            app.controller('ExampleController', ['$scope', '$http', function($scope, $http) {
+
+                /*<bing-map> directive options*/
+                $scope.mapOptions = {};
+                $scope.mapOptions.center = {latitude: 30.614919,longitude: -96.342316};
+                $scope.mapOptions.zoom = 6;
+                $scope.mapOptions.mapType = 'a';
+
+                $scope.polygon = {};
+                $scope.polygon.id = 'myPolygonId1';
+                $scope.polygon.locations = [{latitude:35.08906058576126,longitude:-94.67239412499998},{latitude:31.770841429575057,longitude:-94.62844881249998},{latitude:31.770841429575057,longitude:-93.79348787499998},{latitude:33.234716518470485,longitude:-93.83743318749998},{latitude:33.21633594601856,longitude:-92.71682771874998},{latitude:31.789519833501316,longitude:-92.58499178124998},{latitude:31.808194464296854,longitude:-91.75003084374998},{latitude:35.07107926967833,longitude:-91.94778474999998},{latitude:35.03510475037247,longitude:-92.78274568749998},{latitude:33.78433267069338,longitude:-92.76077303124998},{latitude:33.80259300113746,longitude:-93.90335115624998},{latitude:35.10703793826693,longitude:-93.99124178124998},{latitude:35.08906058576126,longitude:-94.67239412499998}];
+                $scope.polygon.strokeColor = '#4d1010';
+                $scope.polygon.fillColor = 'rgba(255,255,255,0.5)';
+                $scope.polygon.eventHandlers = {
+                    'click': function(event) {
+                        alert('You clicked a polygon!');
+                        console.log(event);
+                    }
+                };
+
+            }]);
+        </script>
+
+        <style type="text/css">
+            bing-map {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+
+    </head>
+    <body ng-app="angularBingMapExample" ng-strict-di>
+
+        <div class="bing-map-container" ng-controller="ExampleController">
+            <bing-map
+                credentials="'AkaxzD5YOJCbIvziHVOLfm6AkeM5Z5UQ3dHS53mQzwK-6LGWnxYjAwNqfe3D4UBT'"
+                center="mapOptions.center"
+                zoom="mapOptions.zoom"
+                mapType="mapOptions.mapType">
+
+                <abm-polygon
+                    locations="polygon.locations"
+                    stroke-color="polygon.strokeColor"
+                    fill-color="polygon.fillColor"
+                    events="polygon.eventHandlers"
+                    track-by="polygon.id">
+                </abm-polygon>
+
+            </bing-map>
+
+        </div>
+
+    </body>
+</html>

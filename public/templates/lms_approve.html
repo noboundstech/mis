@@ -1,0 +1,148 @@
+<div page-Header></div>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                  <div class="loader_angular" ng-show="show_loader"></div>
+                    <div class="row" style="margin-top:10px;margin-bottom:10px">
+                        <div class="col-sm-2">
+                             <strong>
+                                Employee Id : {{user_emp_id}}
+                            </strong>
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>
+                                Name : {{user_emp_name}}
+                            </strong>
+                        </div>  
+                     </div>                      
+            
+                    <div class="row" style="margin-top:10px;margin-bottom:10px">
+                        
+                        <div class="col-sm-3">
+                             <strong>
+                                Total Count : {{leave_list.length}}
+                            </strong>
+                        </div>
+                        <div class="col-sm-3">
+                         <span class="err text-center" ng-bind="error" ></span>
+                        </div>
+                        
+                        <div class="col-sm-6">
+                            <form class="form-inline pull-right">
+                                <div class="form-group">
+                                    <label >Search</label>
+                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                 <div class="btn-primary">
+                    <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                        <h5>From </h5>
+                    </div>
+                     <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                        <h5>To </h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                        <h5># Days</h5>
+                    </div>
+                    
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                        <h5>Type</h5>
+                    </div>
+                     <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                        <h5> Status</h5>
+                    </div>
+                     <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                         <h5>Half Day</h5>
+                    </div>
+                     <div class="col-md-2 col-sm-2"  style="background-color : #337ab7">
+                         <h5>Employee</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                         <h5>Update Date</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7;padding-right:15px;text-align:right">
+                        <h5>
+                            Action
+                        </h5>
+                    </div>
+                </div>
+                <div class="row table-bordered" dir-paginate="leave in leave_list | orderBy : '-from_date' | itemsPerPage: selected_search_type_per_page | filter:search" style="padding:15px">
+            
+                    <div class="col-md-2 col-sm-2" ng-bind="leave.from_date | date : 'yyyy-MM-dd'">
+                    </div>
+                    <div class="col-md-2 col-sm-2" ng-bind="leave.to_date | date : 'yyyy-MM-dd'"></div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.nofdays" ></div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.leave_type" >
+                    </div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.leave_status" >
+
+                    </div>
+                    <div class="col-md-1 col-sm-1"  >
+                     <span ng-if="leave.half_day_flag=='Y'">
+                             YES
+                        </span>
+                        <span  ng-if="leave.half_day_flag=='N'">
+                              NO
+                        </span>
+                    </div>
+                    <div class="col-md-2 col-sm-2" ng-bind="leave.Name" >
+                    </div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.updated_on_dtime | date : 'medium'" >
+                    </div>
+                  
+                    <div class="col-md-1 col-sm-1 text-right" ng-if="leave.leave_status == 'APPLIED'" style="float:right">
+                     <button type="button" class="btn btn-success" style=" padding: 6px 10px ; margin-bottom: 9px !important; margin-top: 5px ;" 
+                        ng-click="ApproveLeave(leave,'APPROVED')">Approve</button>
+                    </div>
+                     <div class="col-md-1 col-sm-1 text-right" ng-if="leave.leave_status == 'APPLIED'" style="float:right">
+                     <button type="button" class="btn btn-success" style=" padding: 6px 10px ; margin-bottom: 9px !important; margin-top: 5px ;" 
+                        ng-click="DeclineLeave(leave,'DECLINED')">Decline</button>
+                    </div>
+                    <div class="col-md-1 col-sm-1 text-right" ng-if="leave.leave_status == 'APPROVED'" style="float:right">
+                     <button type="button" class="btn btn-success" style=" padding: 6px 10px ; margin-bottom: 9px !important; margin-top: 5px ;" 
+                        ng-click="DeclineLeave(leave,'CANCEL')">Cancel</button>
+                    </div>
+                </div>
+                <div class="row table-bordered" style="margin-top:10px;">
+
+                    <div class="col-sm-6">
+                        <label>
+                            Show 
+                            <select ng-model="selected_search_type_per_page" 
+                                ng-options="search.value as search.name for search in page_per_pagination" 
+                                ng-init="selected_search_type_per_page=selected_page_pagination" style="height:30px">
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="text-center">
+                            <dir-pagination-controls 
+                            boundary-links="true" 
+                            max-size="3" 
+                            direction-links="true">
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+</style>

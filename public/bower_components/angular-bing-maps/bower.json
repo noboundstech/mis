@@ -1,0 +1,26 @@
+{
+  "name": "angular-bing-maps",
+  "version": "0.3.0",
+  "authors": [
+    {
+      "name": "Stephen Morrow",
+      "email": "smorrow@credera.com"
+    }
+  ],
+  "main": [
+    "dist/angular-bing-maps.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "Gruntfile.js",
+    "**/.*"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": ">=1.2.0"
+  }
+}

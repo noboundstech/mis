@@ -1,0 +1,316 @@
+<div page-Header></div>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                    <div class="loader_angular" ng-show="show_loader"></div>
+                    <div class="row" style="margin-top:10px;margin-bottom:10px">
+                        <div class="col-sm-2">
+
+                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModel" ng-click="AddNewUser();">
+                                Add New User
+                            </button>
+                        </div>
+
+                        <div class="col-sm-3">
+                             <strong>
+                                Total user : {{user_list.length}}
+                            </strong>
+                        </div>
+                        <div class="col-sm-7">
+                            <form class="form-inline pull-right">
+                                <div class="form-group">
+                                    <label >Search</label>
+                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                 <div class="btn-primary">
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                        <h5>User Name</h5>
+                    </div>
+                     <div class="col-md-3 col-sm-3" style="background-color : #337ab7">
+                        <h5>Email ID</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                        <h5>Manager</h5>
+                    </div>
+                    
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                        <h5>Status</h5>
+                    </div>
+                     <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                        <h5>Description</h5>
+                    </div>
+                     <div class="col-md-2 col-sm-2"  style="background-color : #337ab7">
+                         <h5>Last login</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                         <h5>Activated On</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7;padding-right:15px;text-align:right">
+                        <h5>
+                            Action
+                        </h5>
+                    </div>
+                </div>
+                <div class="row table-bordered" dir-paginate="user in user_list | orderBy : 'name' | itemsPerPage: selected_search_type_per_page | filter:search" style="padding:15px">
+                    <div class="col-md-1 col-sm-1" ng-bind="user.user_id">
+                    </div>
+                    <div class="col-md-3 col-sm-3" ng-bind="user.email_id"></div>
+                    <div class="col-md-1 col-sm-1" ng-bind="user.Manager" ></div>
+                    <div class="col-md-1 col-sm-1" ng-bind="user.active_status" >
+                    </div>
+                    <div class="col-md-2 col-sm-2" ng-bind="user.active_status_reason" >
+                    </div>
+                    <div class="col-md-2 col-sm-2" ng-bind="user.last_signin_datetime | date : 'medium'" >
+                    </div>
+                    <div class="col-md-1 col-sm-1" ng-bind="user.activated_on_date | date : 'yyyy-MM-dd'" >
+                    </div>
+                    <div class="col-md-1 col-sm-1 text-right" style="float:right">
+                     <button type="button" class="btn btn-success" style=" padding: 6px 25px ; margin-bottom: 9px !important; margin-top: 5px ;" 
+                        data-toggle="modal" data-target="#updateUserModel" ng-click="EditUserData(user)">Edit</button>
+                    </div>
+                </div>
+                <div class="row table-bordered" style="margin-top:10px;">
+                    <div class="col-sm-6">
+                        <label>
+                            Show 
+                            <select ng-model="selected_search_type_per_page" 
+                                ng-options="search.value as search.name for search in page_per_pagination" 
+                                ng-init="selected_search_type_per_page=selected_page_pagination" style="height:30px">
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="text-center">
+                            <dir-pagination-controls 
+                            boundary-links="true" 
+                            max-size="3" 
+                            direction-links="true">
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="addUserModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_add_user">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                   Add New User
+                </h4>
+                 <div class="modal-body">
+                    <form ng-submit="addNewUser();" name="new_user" novalidate>
+                        <span class="err text-center" ng-bind="error" ></span>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Emp Id</strong> 
+                            </div>
+                            <div class="col-sm-8">
+                                 <select chosen name="singleSelect" id="id" ng-model="add_user.user_emp_detail" class="input-small"
+                                    ng-options="option.emp_id as option.name for option in Emp_id_List" data-placeholder="Wait Loading Employee details" data-placeholder-text-single="'Select Employee'"><option value="" disabled> Select Employee
+                                       </option> 
+                                   </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>User Name</strong> </div>
+                            <div class="col-sm-8"> 
+                                <input type="text" name="add_user_id" id="add_user_id" ng-model="add_user.add_user_id" class="form-control" required>
+                                <span class="err" ng-show="new_user.add_user_id.$dirty && new_user.add_user_id.$invalid">
+                                    <span ng-show="new_user.add_user_id.$error.required">Username is required.</span>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Password</strong> </div>
+                            <div class="col-sm-8">
+                                 <input type="password" name="password" id="password" ng-model="add_user.password" class="form-control" ng-minlength="6" required>
+                                 <span class="err" ng-show="new_user.password.$touched && new_user.password.$invalid">please enter password of minimum 6 character.</span>
+                                <span class="err" ng-show="new_user.password.$touched && new_user.password.$error.$minlength">please enter password of minimum six character.</span>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Email ID</strong> </div>
+                            <div class="col-sm-8">
+                                 <input type="email" name="email_id" id="email_id" ng-model="add_user.email_id" class="form-control" required>
+                                 <span class="err" ng-show="new_user.email_id.$dirty && new_user.email_id.$invalid">
+                                    <span ng-show="new_user.email_id.$error.required">Email is required.</span>
+                                    <span ng-show="new_user.email_id.$error.email">Invalid email address.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Manager</strong> </div>
+                            <div class="col-sm-8">
+                               <select chosen name="singleSelect" id="manager_id" ng-model="add_user.user_Manager"  class="input-small" ng-options="option.emp_id as option.name for option in Manager_id_List"   data-placeholder="Wait Loading manager details" data-placeholder-text-single="'Select Manager'">
+                                 <option value="" disabled> Select Manager</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Active Status</strong> 
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-model="add_user.Active_Status" 
+                                        ng-options="option.value as option.name for option in Active_Status" style="height: 34px;width: 100%;"
+                                ></select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Active Status Reason</strong> </div>
+                            <div class="col-sm-9">
+                                <select ng-model="add_user.Active_Status_reason" 
+                                        ng-options="option.value as option.name for option in Active_Status_reason" style="height: 34px;width: 100%;"
+                                ></select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Activation Date </strong> 
+                            </div>
+                            <div class="col-sm-9 date-box-one padding-2">
+                                <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="active_date" ng-model="add_user.active_date">
+                                </div>
+                                </datepicker>
+                            </div>
+                        </div>
+                        <div class="loader_angular" ng-show="show_add_user_loader"></div>
+                         <div class="row" style="margin-top:40px">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-primary form-control" >Add User</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateUserModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                   Update User Details
+
+                </h4>
+                <div class="modal-body">
+                    <form ng-submit="updateUserDetail();">
+                        <span class="err" ng-bind="error"></span>
+                      
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>User Name</strong> </div>
+                            <div class="col-sm-9">
+                                {{edit_user_Details.user_id}}
+                                <!--<input type="text" name="user_name" id="user_name" ng-model="edit_user_Details.userName">-->
+                           </div>
+                        </div> 
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Emp Id</strong> </div>
+                            <div class="col-sm-9">
+                                <select chosen name="singleSelect" id="upd_id" ng-model="edit_user_Details.emp_id" 
+                            ng-options="option.emp_id as option.name for option in Emp_id_List" style="height: 34px;width: 100%;"
+                                ></select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Password</strong> </div>
+                            <div class="col-sm-9"> 
+                                <input type="text" name="user_password" id="upd_user_password" ng-model="edit_user_Details.user_pwd" style="width:100%;line-height:30px">
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Email ID</strong> </div>
+                            <div class="col-sm-9">
+                                 <input type="text" name="user_email_id" id="upd_user_email_id" ng-model="edit_user_Details.email_id" class="form-control"  style="width:100%;line-height:30px">
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Manager</strong> </div>
+                            <div class="col-sm-9">
+                                <select chosen name="singleSelect" id="upd_manager_id" ng-model="edit_user_Details.mgr_emp_id" 
+                                        ng-options="option.emp_id as option.name for option in Manager_id_List" style="height: 34px;width: 100%;"
+                                >                                    
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Active Status</strong> </div>
+                            <div class="col-sm-9">
+                                <select ng-model="edit_user_Details.active_status" 
+                                        ng-options="option.value as option.name for option in Active_Status" style="height: 34px;width: 100%;"
+                                ></select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Active Status Reason</strong> </div>
+                            <div class="col-sm-9">
+                                <select ng-model="edit_user_Details.active_status_reason" 
+                                        ng-options="option.value as option.name for option in Active_Status_reason" style="height: 34px;width: 100%;"
+                                ></select>
+                            </div>
+                        </div>
+                       
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Activation Date </strong> 
+                            </div>
+                            <div class="col-sm-9 date-box-one padding-2">
+                                <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="active_date" ng-model="edit_user_Details.activated_on_date">
+                                </div>
+                                </datepicker>
+                            </div> 
+                        </div>    
+                        <div class="loader_angular" ng-show="show_edit_user_loader">
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <button type="submit" class="btn btn-primary btn-block" >Update</button>
+                        </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close_edit_model">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+</style>

@@ -1,0 +1,267 @@
+<div page-Header></div>
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                  <div class="loader_angular" ng-show="show_loader"></div>
+                    <div class="row" style="margin-top:10px;margin-bottom:10px">
+                        <div class="col-sm-2">
+                             <strong>
+                                Employee Id : {{user_emp_id}}
+                            </strong>
+                        </div>
+                        <div class="col-sm-4">
+                            <strong>
+                                Name : {{user_emp_name}}
+                            </strong>
+                        </div>  
+                        <div class="col-sm-6" style="background-color : #add8e6;padding-right:20px">
+                           <strong>
+                                Leave balance as on Year End : 
+                           </strong>     
+                                 CL:  {{leave_bal_year.CL}}  ML:  {{leave_bal_year.ML}}
+                                 EL:  {{leave_bal_year.EL}}  FL:  {{leave_bal_year.FL}}
+                                 OH:  {{leave_bal_year.OH}} 
+                          
+                        </div>  
+                                          
+                    </div>
+                        <div class="row" style="margin-top:10px;margin-bottom:10px">
+                        <div class="col-sm-6">
+                          
+                          
+                        </div>  
+                         <div class="col-sm-6" style="background-color : #add8e6">
+                            <strong>            
+                                     Leave balance as  of Today   :  
+                            </strong>     
+                                 CL:  {{leave_bal_today.CL}}  ML:  {{leave_bal_today.ML}}
+                                 EL:  {{leave_bal_today.EL}}  FL:  {{leave_bal_today.FL}}
+                                 OH:  {{leave_bal_today.OH}} 
+                          
+                        </div>                     
+                    </div>
+             
+                    <div class="row" style="margin-top:10px;margin-bottom:10px">
+                        <div class="col-sm-2">
+                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addLeaveModel" ng-click="initLeaveApply();">
+                                Apply Leave
+                            </button>
+                        </div>
+
+                        <div class="col-sm-3">
+                             <strong>
+                                Total Count : {{leave_list.length}}
+                            </strong>
+                        </div>
+                        <div class="col-sm-7">
+                            <form class="form-inline pull-right">
+                                <div class="form-group">
+                                    <label >Search</label>
+                                    <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                 <div class="btn-primary">
+                    <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                        <h5>From </h5>
+                    </div>
+                     <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                        <h5>To </h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                        <h5># Days</h5>
+                    </div>
+                    
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                        <h5>Type</h5>
+                    </div>
+                     <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                        <h5> Status</h5>
+                    </div>
+                     <div class="col-md-1 col-sm-1"  style="background-color : #337ab7;padding-left:2px">
+                         <h5>Half Day</h5>
+                    </div>
+                     <div class="col-md-2 col-sm-2"  style="background-color : #337ab7">
+                         <h5>Manager</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1"  style="background-color : #337ab7">
+                         <h5>Update Date</h5>
+                    </div>
+                    <div class="col-md-1 col-sm-1" style="background-color : #337ab7;padding-right:15px;text-align:right">
+                        <h5>
+                            Action
+                        </h5>
+                    </div>
+                </div>
+                <div class="row table-bordered" dir-paginate="leave in leave_list | orderBy : '-from_date' | itemsPerPage: selected_search_type_per_page | filter:search" style="padding:15px">
+            
+                    <div class="col-md-2 col-sm-2" ng-bind="leave.from_date | date : 'yyyy-MM-dd'">
+                    </div>
+                    <div class="col-md-2 col-sm-2" ng-bind="leave.to_date | date : 'yyyy-MM-dd'"></div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.nofdays" ></div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.leave_type" >
+                    </div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.leave_status"
+                     >
+                    </div>
+                    <div class="col-md-1 col-sm-1"  >
+                     <span style="padding-left:10px;" ng-if="leave.half_day_flag=='Y'">
+                             YES
+                        </span>
+                        <span style="padding-left:10px;" ng-if="leave.half_day_flag=='N'">
+                              NO
+                        </span>
+                    </div>
+                    <div class="col-md-2 col-sm-2" ng-bind="leave.Manager" >
+                    </div>
+                    <div class="col-md-1 col-sm-1" ng-bind="leave.updated_on_dtime | date : 'medium'" >
+
+                    </div>
+                  
+                    <div class="col-md-1 col-sm-1 text-right" ng-if="leave.leave_status == 'APPLIED'" style="float:right">
+                     <button type="button" class="btn btn-success" style=" padding: 6px 15px ; margin-bottom: 9px !important; margin-top: 5px ;" 
+                        ng-click="CancelLeave(leave,'CANCEL')">Cancel</button>
+                    </div>
+                </div>
+                <div class="row table-bordered" style="margin-top:10px;">
+                    <div class="col-sm-6">
+                        <label>
+                            Show 
+                            <select ng-model="selected_search_type_per_page" 
+                                ng-options="search.value as search.name for search in page_per_pagination" 
+                                ng-init="selected_search_type_per_page=selected_page_pagination" style="height:30px">
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <div class="text-center">
+                            <dir-pagination-controls 
+                            boundary-links="true" 
+                            max-size="3" 
+                            direction-links="true">
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="addLeaveModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_apply_leave">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                   Apply Leave
+                </h4>
+                 <div class="modal-body">
+                    <form ng-submit="applyNewLeave();" name="new_leave" novalidate>
+                        <span class="err text-center" ng-bind="error" ></span>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Employee Id</strong> </div>
+                            <div class="col-sm-9">                            
+                               {{user_emp_id}}                              
+                           </div>
+                        </div> 
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Name </strong> </div>
+                            <div class="col-sm-9">
+                                {{user_emp_name}}
+                              
+                           </div>
+                        </div> 
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>From Date </strong> 
+                            </div>
+                            <div class="col-sm-9 date-box-one padding-2">
+                                <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                <div class="input-group">
+                                <input class="form-control" placeholder="from_date" ng-model="apply_leave.from_date" ng-change="ChangeFromToDate(apply_leave.from_date,apply_leave.to_date,apply_leave.Leave_Type)">
+                            </div>
+                                </datepicker>
+                                </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>To Date </strong> 
+                            </div>
+                            <div class="col-sm-9 date-box-one padding-2">
+                                <datepicker date-format="yyyy-MM-dd" selector="form-control">
+                                <div class="input-group">
+                                <input class="form-control" placeholder="to_date" ng-model="apply_leave.to_date" ng-change="ChangeFromToDate(apply_leave.from_date,apply_leave.to_date,apply_leave.Leave_Type)">
+                            </div>
+                                </datepicker>
+                                </div>
+                        </div>
+                         <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>No of Days</strong> </div>
+                            <div class="col-sm-9">
+                                {{apply_leave.nofdays}}
+                              
+                           </div>
+                        </div> 
+ 
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Manager</strong> </div>
+                            <div class="col-sm-8">
+                               <select chosen name="singleSelect" id="manager_id" ng-model="apply_leave.leave_Manager"  class="input-small" ng-options="option.mgr_emp_id as option.name for option in Manager_id_Leave"   data-placeholder="Wait Loading manager details" data-placeholder-text-single="'Select Manager'">
+                                 <option value="" disabled> Select Manager</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Leave Type</strong> 
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-model="apply_leave.Leave_Type" 
+                                        ng-options="option.value as option.name for option in Leave_Type" ng-change="ChangeFromToDate(apply_leave.from_date,apply_leave.to_date,apply_leave.Leave_Type)" style="height: 34px;width: 100%;"
+                                ></select>
+                            </div>
+                        </div>
+                         <div class="row" style="padding:10px">
+                            <div class="col-sm-3"> <strong>Half Day</strong> 
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-model="apply_leave.half_day_flag" 
+                                        ng-options="option.value as option.name for option in Half_Day" style="height: 34px;width: 40%;"
+                                ></select>
+                            </div>
+                        </div>     
+                   
+                        <div class="loader_angular" ng-show="show_apply_leave_loader"></div>
+                         <div class="row" style="margin-top:40px">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-primary form-control" >Apply Leave</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+</style>

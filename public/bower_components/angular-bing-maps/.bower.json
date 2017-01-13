@@ -1,0 +1,36 @@
+{
+  "name": "angular-bing-maps",
+  "version": "0.3.0",
+  "authors": [
+    {
+      "name": "Stephen Morrow",
+      "email": "smorrow@credera.com"
+    }
+  ],
+  "main": [
+    "dist/angular-bing-maps.js"
+  ],
+  "ignore": [
+    "src",
+    "test",
+    "Gruntfile.js",
+    "**/.*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "angular-mocks": ">=1.2.0",
+    "angular-scenario": ">=1.2.0",
+    "angular": ">=1.2.0"
+  },
+  "homepage": "https://github.com/Credera/angular-bing-maps",
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.3.0",
+    "commit": "3f985df2c48068ab0857a59a97f31dd823a779b7"
+  },
+  "_source": "https://github.com/Credera/angular-bing-maps.git",
+  "_target": "^0.3.0",
+  "_originalSource": "angular-bing-maps",
+  "_direct": true
+}

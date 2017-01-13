@@ -1,0 +1,41 @@
+{
+  "name": "test_project",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "angular-chosen-localytics": "^1.5.0",
+    "async": "^2.1.2",
+    "body-parser": "~1.12.4",
+    "cookie-parser": "~1.3.5",
+    "crypto": "0.0.3",
+    "debug": "~2.2.0",
+    "express": "^4.12.4",
+    "helmet": "^2.3.0",
+    "jade": "~1.9.2",
+    "jsonwebtoken": "^7.2.1",
+    "lodash": "^4.16.6",
+    "morgan": "^1.5.3",
+    "node-mssql": "0.0.1",
+    "node-schedule": "^1.2.0",
+    "rootpath": "^0.1.2",
+    "serve-favicon": "~2.2.1",
+    "socket.io": "^1.5.1",
+    "underscore": "^1.8.3"
+  },
+  "description": "this is test project",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "test",
+    "project"
+  ],
+  "author": "firdous alam",
+  "license": "ISC"
+}

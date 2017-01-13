@@ -1,0 +1,25 @@
+<div class="modal-dialog">
+    <div class="loginmodal-container">
+        <h1 ng-bind="details"></h1><br>
+        <form ng-submit="loginUser();">
+            <span class="err" ng-bind="error"></span>
+            <input type="text" name="user" placeholder="Username" ng-model="login.username">
+            <input type="password" name="pass" placeholder="Password" ng-model="login.password">
+            <div class="loader_angular" ng-show="Loader"></div>
+            <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+            <a href="#/forget_password">FORGOT PASSWORD</a>
+        </form>
+    </div>
+</div>
+<style>
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+</style>
